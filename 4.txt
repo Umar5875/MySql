@@ -1,0 +1,16 @@
+mysql> create table EMPLOYEE_DUP like EMPLOYEE;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc EMPLOYEE_DUP
+    -> ;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| emp_id   | int         | NO   | PRI | NULL    |       |
+| name     | varchar(50) | YES  |     | NULL    |       |
+| city     | varchar(50) | YES  |     | NULL    |       |
+| dob      | date        | YES  |     | NULL    |       |
+| adhar_no | char(12)    | YES  | UNI | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
