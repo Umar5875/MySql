@@ -19,5 +19,3 @@ mysql> desc STUDENT;
 | gender  | char(1)      | YES  |     | m       |       |
 +---------+--------------+------+-----+---------+-------+
 5 rows in set (0.01 sec)
-
-//RESUBMIT
