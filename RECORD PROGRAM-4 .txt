@@ -1,0 +1,59 @@
+RECORD PROGRAM-4 ((SELECT, Filtering using WHERE,  ORDER BY Clauses)
+1. List all invoice items, avoid duplicates. 
+mysql> SELECT * FROM INVOICE_MASTER;
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|    102 |      15 | 2025-03-05 |
+|    103 |      15 | 2025-04-12 |
+|    105 |      18 | 2025-06-18 |
++--------+---------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT cust_id FROM INVOICE_MASTER;
++---------+
+| cust_id |
++---------+
+|      15 |
+|      18 |
++---------+
+
+2. List the customer details who not live in ‘tvm’.
+
+mysql> SELECT * FROM Customer WHERE city <> 'tvm';
++----+-------+-------------+----------+------------+
+| id | name  | address     | city     | ph_no      |
++----+-------+-------------+----------+------------+
+| 10 | Abhi  | vengappalli | KOTTAYAM | 9987453678 |
+| 15 | ziyan | civil       | kalpetta | 996969753  |
+| 16 | Umar  | New Street  | Kochi    | 9876543210 |
++----+-------+-------------+----------+------------+
+3 rows in set (0.00 sec)
+
+3. Display the customer details sorted in ascending by city and descending by names.
+
+mysql> SELECT * FROM Customer ORDER BY city ASC, name DESC;
++----+--------+-------------+----------+------------+
+| id | name   | address     | city     | ph_no      |
++----+--------+-------------+----------+------------+
+| 15 | ziyan  | civil       | kalpetta | 996969753  |
+| 16 | Umar   | New Street  | Kochi    | 9876543210 |
+| 10 | Abhi   | vengappalli | KOTTAYAM | 9987453678 |
+| 18 | Shifan | valancheri  | TVM      | 9873178198 |
+| 11 | Ameen  | vengappalli | TVM      | NULL       |
++----+--------+-------------+----------+------------+
+5 rows in set (0.00 sec)
+
+4. Find the customer names who have ‘e’ or ‘a’ in them and at least 3 characters in length.
+
+mysql> SELECT name FROM Customer WHERE name LIKE '%e%' OR name LIKE '%a%' AND name like '___%';
++--------+
+| name   |
++--------+
+| Abhi   |
+| Ameen  |
+| ziyan  |
+| Umar   |
+| Shifan |
++--------+
+5 rows in set (0.00 sec)
