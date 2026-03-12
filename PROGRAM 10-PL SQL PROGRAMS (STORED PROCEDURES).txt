@@ -27,33 +27,39 @@ mysql> call greatest_num(20,30,10)
 
 2. Create a procedure to display invoice details of a particular customer.
 mysql> DELIMITER //
-mysql> 
-mysql> CREATE PROCEDURE customer_invoice(
-    -> IN cid INT
-    -> )
+mysql> CREATE procedure cust_invoice(IN cid INT)
     -> BEGIN
     -> SELECT Customer.id,
     -> Customer.name,
     -> INVOICE_MASTER.inv_id,
-    -> INVOICE_MASTER.inv_date
+    -> INVOICE_MASTER.inv_date,
+    -> Product.pname,
+    -> Invoice_item.quantity
     -> FROM Customer
     -> JOIN INVOICE_MASTER
     -> ON Customer.id = INVOICE_MASTER.cust_id
+    -> JOIN Invoice_item
+    -> ON INVOICE_MASTER.inv_id = Invoice_item.inv_id
+    -> JOIN Product
+    -> ON Invoice_item.pid = Product.pid
     -> WHERE Customer.id = cid;
     -> END
     -> //
 Query OK, 0 rows affected (0.00 sec)
 
-mysql> call customer_invoice(1)
+mysql> CALL cust_invoice(1)
     -> //
-+----+------+--------+------------+
-| id | name | inv_id | inv_date   |
-+----+------+--------+------------+
-|  1 | Arun |    101 | 2025-03-05 |
-|  1 | Arun |    104 | 2025-07-10 |
-+----+------+--------+------------+
-2 rows in set (0.00 sec)
++----+------+--------+------------+-------+----------+
+| id | name | inv_id | inv_date   | pname | quantity |
++----+------+--------+------------+-------+----------+
+|  1 | Arun |    101 | 2025-03-05 | car   |        2 |
+|  1 | Arun |    101 | 2025-03-05 | soap  |        5 |
+|  1 | Arun |    104 | 2025-07-10 | car   |        3 |
+|  1 | Arun |    104 | 2025-07-10 | bike  |        5 |
++----+------+--------+------------+-------+----------+
+4 rows in set (0.00 sec)
 
 Query OK, 0 rows affected (0.00 sec)
+
 
 
