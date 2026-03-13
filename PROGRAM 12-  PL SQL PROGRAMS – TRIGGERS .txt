@@ -1,0 +1,45 @@
+1. Create a trigger to handle inserts to the product relation ( if price < 5 the set price to 10).
+
+mysql> SELECT * FROM Product;
+    -> //
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+| 111 | abhi   |   999 |
+| 120 | adi    |    45 |
+| 200 | car    |   200 |
+| 204 | car    |   900 |
+| 208 | car    |   900 |
+| 301 | Pen    |    15 |
+| 302 | Pencil |     5 |
++-----+--------+-------+
+7 rows in set (0.00 sec)
+
+mysql> CREATE TRIGGER TRIG_RELATION BEFORE INSERT ON Product FOR EACH ROW BEGIN
+IF NEW.PRICE < 5 THEN SET NEW.PRICE = 10; END IF; END//
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+mysql> INSERT INTO Product VALUES (344,'ERASER',3);
+    -> //
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM Product;
+    -> //
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+| 111 | abhi   |   999 |
+| 120 | adi    |    45 |
+| 200 | car    |   200 |
+| 204 | car    |   900 |
+| 208 | car    |   900 |
+| 301 | Pen    |    15 |
+| 302 | Pencil |     5 |
+| 344 | ERASER |    10 |
++-----+--------+-------+
+8 rows in set (0.00 sec)
+
+mysql> 
+

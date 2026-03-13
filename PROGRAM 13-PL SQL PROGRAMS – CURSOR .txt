@@ -1,0 +1,32 @@
+1. Write a PL/SQL program to create a name list of customers using CURSOR
+
+mysql> CREATE PROCEDURE customer_name(INOUT name_list VARCHAR(4000)) 
+->BEGIN 
+->DECLARE finished INT DEFAULT 0; 
+->DECLARE cust_name VARCHAR(100); 
+->DECLARE cust_cursor CURSOR FOR SELECT name FROM Customer; 
+->DECLARE CONTINUE HANDLER FOR NOT FOUND SET
+->finished = 1; OPEN cust_cursor; 
+->read_loop: LOOP FETCH cust_cursor INTO cust_name; 
+->IF finished = 1 THEN LEAVE read_loop; END IF; 
+->SET name_list = CONCAT(name_list, cust_name, ', ');
+->END LOOP; CLOSE cust_cursor; 
+->END
+->//
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET @name_list = '';
+    -> CALL customer_name(@name_list);
+    -> SELECT @name_list;
+    -> //
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
++----------------------------+
+| @name_list                 |
++----------------------------+
+| Arun, Binu, Cathy, David,  |
++----------------------------+
+1 row in set (0.00 sec)
+
