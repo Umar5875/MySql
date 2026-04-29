@@ -1,0 +1,61 @@
+1. Write a MongoDB query to sort customer details in ascending order of their name.
+INVOICE> db.customer.find().sort({cust_id:1})
+[
+  {
+    _id: ObjectId('69b7a8e5eca4f3687bef634c'),
+    cust_id: 2,
+    name: 'arun',
+    city: 'kochi'
+  },
+  {
+    _id: ObjectId('69b7a999eca4f3687bef634d'),
+    cust_id: 3,
+    name: 'jobin',
+    city: 'kozhikode'
+  }
+]
+ 
+
+ 2. Write a MongoDB query to count number of customers in each city. 
+ 
+ 
+ INVOICE> db.customer.aggregate([{$group:{_id:"$city",count:{$sum:1}}}])
+[ { _id: 'kozhikode', count: 1 }, { _id: 'kochi', count: 1 } ]
+
+
+
+ 3. Write a MongoDB query to find minimum and maximum age in each city. 
+ INVOICE> db.customer.aggregate([{$group: { _id: "$city",minage:{ $min:"$age"},maxage:{$max:"$age"}}}]) 
+[
+  { _id: 'kochi', minage: 22, maxage: 25 },
+  { _id: 'kozhikode', minage: 28, maxage: 30 }
+]
+
+ 4. Write a MongoDB query using the $match stage to retrieve all customer documents whose
+customer_name starts with the letter “S”.
+
+INVOICE> db.customer.aggregate([{$match:{name:{$regex:/^r/i}}}])
+[
+  {
+    _id: ObjectId('69b8fbbd58bfd8c9afef634b'),
+    cust_id: 4,
+    name: 'rahul',
+    city: 'kozhikode',
+    age: 28
+  }
+]
+
+5. Write a query using $lookup to join CUSTOMER and PRODUCT collections and display only
+
+customer name, product name, and price.
+INVOICE> db.customer.aggregate([{ $lookup: {from: "product",localField: "pro_id",foreignField: "pro_id",as: "product_info"}},{$unwind: "$product_info"},{$project: {_id: 0,customer_name: "$name",product_name: "$product_info.name",price: "$product_info.price"}}])
+[
+  { customer_name: 'arun', product_name: 'laptop', price: 50000 },
+  { customer_name: 'jobin', product_name: 'keyboard', price: 1200 },
+  { customer_name: 'rahul', product_name: 'laptop', price: 50000 },
+  { customer_name: 'neha', product_name: 'mouse', price: 500 }
+]
+
+ 
+
+

@@ -1,0 +1,138 @@
+
+1. Write a MongoDB query to create an INVOICE database and collections (CUSTOMER,
+PRODUCT) and its corresponding documents. 
+
+test> use INVOICE
+switched to db INVOICE
+INVOICE> db.createCollection("product")
+{ ok: 1 }
+INVOICE> show collections
+customer
+MCA
+product
+INVOICE> db.customer.insert({"cust_id":1,"name":"Rahul","city":"Calicut"})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('69b7a89eeca4f3687bef634b') }
+}
+INVOICE> db.customer.insert({"cust_id":2,"name":"arun","city":"kochi"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('69b7a8e5eca4f3687bef634c') }
+}
+
+INVOICE> db.customer.insert({"cust_id":3,"name":"jobin","city":"kozhikode"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('69b7a999eca4f3687bef634d') }
+}
+
+2. Write a MongoDB query to find all documents from the collection CUSTOMER 
+
+
+INVOICE> db.customer.find()
+[
+
+  {
+    _id: ObjectId('69b7a89eeca4f3687bef634b'),
+    cust_id: 1,
+    name: 'Rahul',
+    city: 'Calicut'
+  },
+  {
+    _id: ObjectId('69b7a8e5eca4f3687bef634c'),
+    cust_id: 2,
+    name: 'arun',
+    city: 'kochi'
+  },
+  {
+    _id: ObjectId('69b7a999eca4f3687bef634d'),
+    cust_id: 3,
+    name: 'jobin',
+    city: 'kozhikode'
+  }
+]
+
+INVOICE> db.product.insertMany([{"pro_id":101,"name":"laptop","price":50000},{"pro_id":102,"name":"mouse","price":500},{"pro_id":103,"name":"keyboard","price":1200}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69b7ac15eca4f3687bef634e'),
+    '1': ObjectId('69b7ac15eca4f3687bef634f'),
+    '2': ObjectId('69b7ac15eca4f3687bef6350')
+  }
+}
+
+INVOICE> db.product.find()
+[
+  {
+    _id: ObjectId('69b7ac15eca4f3687bef634e'),
+    pro_id: 101,
+    name: 'laptop',
+    price: 50000
+  },
+  {
+    _id: ObjectId('69b7ac15eca4f3687bef634f'),
+    pro_id: 102,
+    name: 'mouse',
+    price: 500
+  },
+  {
+    _id: ObjectId('69b7ac15eca4f3687bef6350'),
+    pro_id: 103,
+    name: 'keyboard',
+    price: 1200
+  }
+]
+
+
+ 3. Write a MongoDB query to update the city in the collection CUSTOMER. 
+ 
+ INVOICE> db.customer.updateOne({"city":"Calicut"},{$set:{"city":"kochi"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+ INVOICE> db.customer.find({"city":"kochi"})
+[
+  {
+    _id: ObjectId('69b7a89eeca4f3687bef634b'),
+    cust_id: 1,
+    name: 'Rahul',
+    city: 'kochi'
+  },
+  {
+    _id: ObjectId('69b7a8e5eca4f3687bef634c'),
+    cust_id: 2,
+    name: 'arun',
+    city: 'kochi'
+  }
+]
+
+ 4. Write a MongoDB query to delete the first matched document whose city is “kochi”.
+INVOICE> db.customer.deleteOne({"city":"kochi"})
+{ acknowledged: true, deletedCount: 1 }
+INVOICE> db.customer.find()
+[
+  { _id: ObjectId('69b3da4d4a27bea066ef634b'), name: 'nihad' },
+  { _id: ObjectId('69b3dab34a27bea066ef634c'), name: 'abin' },
+  { _id: ObjectId('69b3dc094a27bea066ef634d'), name: 'abin1', age: 21 },
+  {
+    _id: ObjectId('69b7a8e5eca4f3687bef634c'),
+    cust_id: 2,
+    name: 'arun',
+    city: 'kochi'
+  },
+  {
+    _id: ObjectId('69b7a999eca4f3687bef634d'),
+    cust_id: 3,
+    name: 'jobin',
+    city: 'kozhikode'
+  }
+]
+

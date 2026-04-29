@@ -1,0 +1,42 @@
+1. Write a MongoDB query to create a user “CUSTOMER1” and grant the read role in the INVOICE database. 
+INVOICE> db.createUser({user: "nihad",pwd: "Nihad@123",roles: [{ role: "read", db: "INVOICE" }]})
+{ ok: 1 }
+INVOICE> db.getUser("nihad")
+{
+  _id: 'INVOICE.nihad',
+  userId: UUID('b6f9940f-d11c-4655-9c76-1296dcc46c94'),
+  user: 'nihad',
+  db: 'INVOICE',
+  roles: [ { role: 'read', db: 'INVOICE' } ],
+  mechanisms: [ 'SCRAM-SHA-1', 'SCRAM-SHA-256' ]
+}
+
+ 2. Write a MongoDB query to create the backup for the INVOICE database. 
+ 
+(base) ksb@ksb-OptiPlex-3060:~$ mongodump --db INVOICE
+2026-03-19T14:56:31.905+0530	writing INVOICE.customer to dump/INVOICE/customer.bson
+2026-03-19T14:56:31.905+0530	writing INVOICE.product to dump/INVOICE/product.bson
+2026-03-19T14:56:31.905+0530	writing INVOICE.MCA to dump/INVOICE/MCA.bson
+2026-03-19T14:56:31.906+0530	done dumping INVOICE.product (3 documents)
+2026-03-19T14:56:31.906+0530	done dumping INVOICE.customer (4 documents)
+2026-03-19T14:56:31.906+0530	done dumping INVOICE.MCA (0 documents)
+
+
+ 
+ 3. Write a MongoDB query to restore a particular database or a collection. 
+ test> use invoicedb
+switched to db invoicedb
+invoicedb> db.dropDatabase()
+{ ok: 1, dropped: 'invoicedb' }
+
+$ mongorestore --db invoicedb dump/invoicedb
+ collection invoicedb.price
+ 2026-03-23T12:07:32.650+0530	0 document(s) restored successfully. 0 document(s) failed to restore.
+
+
+ 4. Write a MongoDB query to create an index for the collection customer using the field customer_name.
+ 
+ INVOICE> db.customer.createIndex({ customer_name: 1 })
+customer_name_1
+
+ 
